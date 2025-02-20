@@ -1,23 +1,4 @@
-const config = {
-    type: Phaser.AUTO,
-    width: 400,
-    height: 600,
-    physics: {
-        default: 'arcade',
-        arcade: {
-            gravity: { y: 300 },
-            debug: false
-        }
-    },
-    scene: [StartScene, GameScene, LeaderboardScene],
-    parent: 'game-container'
-};
-
-const game = new Phaser.Game(config);
-
-let playerName = '';
-let leaderboard = [];
-
+// Define scenes first
 class StartScene extends Phaser.Scene {
     constructor() {
         super('StartScene');
@@ -165,38 +146,4 @@ class LeaderboardScene extends Phaser.Scene {
 
     init(data) {
         this.score = data.score;
-        this.name = data.name;
-    }
-
-    create() {
-        leaderboard.push({ name: this.name, score: this.score });
-        leaderboard.sort((a, b) => b.score - a.score);
-        leaderboard = leaderboard.slice(0, 5);
-
-        this.cameras.main.setBackgroundColor('#f0f0f0');
-        this.add.image(200, 300, 'background').setDisplaySize(400, 600);
-
-        const gameOverText = this.add.text(200, 150, `Game Over! Final Score: ${this.score}`, {
-            fontSize: '36px',
-            color: '#FFFFFF'
-        }).setOrigin(0.5);
-
-        let y = 250;
-        leaderboard.forEach((entry, index) => {
-            const text = this.add.text(200, y, `${index + 1}. ${entry.name}: ${entry.score}`, {
-                fontSize: '24px',
-                color: '#FFFFFF'
-            }).setOrigin(0.5);
-            y += 40;
-        });
-
-        const restartText = this.add.text(200, 500, 'Press Enter to Restart', {
-            fontSize: '24px',
-            color: '#FFFFFF'
-        }).setOrigin(0.5);
-
-        this.input.keyboard.on('keydown-ENTER', () => {
-            this.scene.start('StartScene');
-        });
-    }
-}
+        this.name
